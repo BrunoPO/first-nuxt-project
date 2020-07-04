@@ -18,8 +18,8 @@ export const actions = {
 
     if (state.query != query) {
       await fetch(getUrl("q", query))
-      .then((response) => response.json()
-      ).then((data) => {
+      .then((response) => response.json())
+      .then((data) => {
         var data = {
           query: query,
           recipes: filterData(data.hits)

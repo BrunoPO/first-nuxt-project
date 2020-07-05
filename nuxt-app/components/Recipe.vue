@@ -9,11 +9,10 @@
 </template>
 
 <script>
-    export default {
-        props: ['thumbnail', 'title', 'previewText', 'id']
-    }
+export default {
+  props: ['thumbnail', 'title', 'previewText', 'id'],
+};
 </script>
-
 
 <style scoped>
     a {

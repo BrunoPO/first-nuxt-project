@@ -1,16 +1,22 @@
 {
-    "name": "first-nuxt-app",
-    "version": "1.0.0",
-    "private": true,
-    "scripts": {
-      "dev": "cd ./nuxt-app && yarn dev",
-      "dev-api": "node ./node/src/server.js",
-      "build": "cd ./nuxt-app && yarn nuxt build",
-      "start": "cd ./nuxt-app && yarn nuxt start",
-      "export": "cd ./nuxt-app && yarn nuxt export",
-      "serve": "cd ./nuxt-app && yarn nuxt serve"
-    },
-    "dependencies": {},
-    "devDependencies": {}
+  "name": "first-nuxt-app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "cd ./nuxt-app && yarn dev",
+    "dev-api": "node ./node/src/server.js",
+    "build": "cd ./nuxt-app && yarn nuxt build",
+    "start": "cd ./nuxt-app && yarn nuxt start",
+    "export": "cd ./nuxt-app && yarn nuxt export",
+    "serve": "cd ./nuxt-app && yarn nuxt serve",
+    "lint": "eslint \"nuxt-app/**\" --fix",
+    "lint-api": "eslint \"node/**\" --fix"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^7.4.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-vue": "^6.2.2"
   }
-  
+}

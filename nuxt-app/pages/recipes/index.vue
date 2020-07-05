@@ -20,30 +20,27 @@
 </template>
 
 <script>
-    import Recipe from '@/components/Recipe'
-    import requests from '@/helpers/requests';
+import Recipe from '@/components/Recipe';
 
-    export default {
-        data: () => {
-            return {
-                search: ''
-            }
-        },
-        components: {
-            Recipe
-        },
-        methods: {
-            submitSearch: function (event) {
-                this.$store.dispatch('searchRecipes', { query: this.search })
-            },
-            loadMore: function (event) {
-                this.$store.dispatch('loadMore', { query: this.$store.state.query })
-            }
-        },
-        async fetch ({ store }) {
-            await store.dispatch('searchRecipes', { query: 'apple' })
-        } 
-    }
+export default {
+  data: () => ({
+    search: '',
+  }),
+  components: {
+    Recipe,
+  },
+  methods: {
+    submitSearch() {
+      this.$store.dispatch('searchRecipes', { query: this.search });
+    },
+    loadMore() {
+      this.$store.dispatch('loadMore', { query: this.$store.state.query });
+    },
+  },
+  async fetch({ store }) {
+    await store.dispatch('searchRecipes', { query: 'apple' });
+  },
+};
 </script>
 
 <style scoped>

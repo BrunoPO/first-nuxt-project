@@ -20,17 +20,16 @@
 </style>
 
 <script>
-    import requests from '@/helpers/requests';
+import requests from '@/helpers/requests';
 
-    export default {
-        async asyncData ({store, params, redirect}) {
-            var recipe = await requests.get.Recipe({store, params});
+export default {
+  async asyncData({ store, params, redirect }) {
+    const recipe = await requests.get.Recipe({ store, params });
 
-            if (recipe) {
-                return {recipe}
-            } else {
-                redirect('/recipes');
-            }
-        }
+    if (!recipe) {
+      redirect('/recipes');
     }
+    return { recipe };
+  },
+};
 </script>

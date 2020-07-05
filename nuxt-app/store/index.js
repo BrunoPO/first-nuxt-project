@@ -13,29 +13,38 @@ export const mutations = {
 }
 
 export const actions = {
-  async searchRecipes ({state, commit}, { query, callback}) {
-    var query = query || 'apple';
+  async searchRecipes ({state, commit}, { query, callback, callbackErr}) {
+    var query = query;
+    var requestObj = {
+        "operationName": null,
+        "query": "{recipes(query: \"" + query + "\") {id title thumbnail previewText}}",
+        "variables": {}
+    }
 
     if (state.query != query) {
-      await fetch(getUrl("q", query))
-      .then((response) => response.json())
-      .then((data) => {
+      await fetch(getUrl(), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestObj)
+      }).then((response) => response.json()
+      ).then((response) => {
         var data = {
           query: query,
-          recipes: filterData(data.hits)
+          recipes: response.data.recipes
         }
         commit('updateRecipes', data)
         callback && callback(data);
-      })
-      .catch((err) => {
-        console.log(err);
+      }).catch((err) => {
+        callbackErr && callbackErr(err);
       })
     }
   }
 }
 
 function getUrl(...args) {
-  var url = "https://api.edamam.com/search?app_id=900da95e&app_key=40698503668e0bb3897581f4766d77f9";
+  var url = "http://localhost:4000";
   args.forEach((curr, index) => {
     if (index % 2 == 0) {
       url += "&" + curr + "="
@@ -43,22 +52,5 @@ function getUrl(...args) {
       url += curr
     }
   });
-  console.log(url)
   return url;
-}
-
-function filterData(hits) {
-  if (!hits) {
-    return undefined;
-  }
-  var hits = hits.map((obj, index) => {
-      var orirecipe = obj.recipe
-      return {
-          id: index,
-          thumbnail: orirecipe.image,
-          previewText: orirecipe.source,
-          title: orirecipe.label
-      };
-  });
-  return hits;
 }

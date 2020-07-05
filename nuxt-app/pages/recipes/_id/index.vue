@@ -21,24 +21,28 @@
 
 <script>
     export default {
-        asyncData({params, store}) {
-            return new Promise((resolve, reject) => {
-                try {
-                    if (store.state.recipes.length < params.id) {
-                        store.dispatch('searchRecipes', {callback: (data) => {
-                            resolve({
-                                recipe: store.state.recipes[params.id]
-                            })
-                        }});
-                    } else {
-                        resolve({
-                            recipe: store.state.recipes[params.id]
-                        })
-                    }
-                } catch (err) {
-                    reject(err)
-                }
-            });
+        async asyncData ({store, params, redirect}) {
+            if (params.id && store.state.query) {
+                var requestObj = {
+                    "operationName": null,
+                    "query": "{recipe(query: \"" + store.state.query + "\", id: \"" + params.id + "\") {id title thumbnail previewText}}",
+                    "variables": {}
+                };
+                return await fetch("http://localhost:4000", {
+                    method: 'POST',
+                    headers: {
+                    'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestObj)
+                }).then((response) => response.json())
+                .then((response) => {
+                    return {recipe: response.data.recipe};
+                }).catch((err) => {
+                    return {recipe: {}};
+                });
+            } else {
+                redirect('/recipes');
+            }
         }
     }
 </script>

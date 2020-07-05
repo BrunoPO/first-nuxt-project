@@ -6,6 +6,6 @@ type Recipe {
 }
 
 type Query {
-    recipes(query: String!): [Recipe!]!
+    recipes(query: String!, from:Int, pageSize:Int ): [Recipe!]!
     recipe(query: String!, id: ID!): Recipe
 }

@@ -1,9 +1,23 @@
 const {getUrl, requisition, updateRecipes} = require('../../helpers/helpers');
+const searchRecipesUrl = "https://api.edamam.com/search?app_id=900da95e&app_key=40698503668e0bb3897581f4766d77f9";
 
 module.exports = {
-    recipes: (_context, {query}) => {
-        const urlOri = "https://api.edamam.com/search?app_id=900da95e&app_key=40698503668e0bb3897581f4766d77f9";
-        url = getUrl(urlOri, ["q", query]);
+    recipes: (_context, { query, from, pageSize }) => {
+        var initialPage = 0;
+        var UrlParams = ["q", query];
+
+        if (typeof from == "number") {
+            UrlParams.push("from");
+            UrlParams.push(from);
+            initialPage = from;
+        }
+
+        if (typeof pageSize == "number") {
+            UrlParams.push("to");
+            UrlParams.push(initialPage + pageSize);
+        }
+
+        url = getUrl(searchRecipesUrl, UrlParams);
 
         return requisition(url).then(data => {
             var response = [];
@@ -14,8 +28,7 @@ module.exports = {
         });
     },
     recipe: (_context, {query, id}) => {
-        const urlOri = "https://api.edamam.com/search?app_id=900da95e&app_key=40698503668e0bb3897581f4766d77f9";
-        url = getUrl(urlOri, ["q", query, "from", id, "to", Number(id) + 1]);
+        url = getUrl(searchRecipesUrl, ["q", query, "from", id, "to", Number(id) + 1]);
         return requisition(url).then(data => {
             if (data.count) {
                 var response = updateRecipes(data.hits);

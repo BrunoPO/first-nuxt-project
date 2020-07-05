@@ -11,3 +11,9 @@ $ yarn dev
 
 # api server at localhost:4000
 $ yarn dev-api
+
+# lint at nuxt
+$ yarn lint
+
+# lint at node
+$ yarn lint-api

@@ -20,26 +20,14 @@
 </style>
 
 <script>
+    import requests from '@/helpers/requests';
+
     export default {
         async asyncData ({store, params, redirect}) {
-            if (params.id && store.state.query) {
-                var requestObj = {
-                    "operationName": null,
-                    "query": "{recipe(query: \"" + store.state.query + "\", id: \"" + params.id + "\") {id title thumbnail previewText}}",
-                    "variables": {}
-                };
-                return await fetch("http://localhost:4000", {
-                    method: 'POST',
-                    headers: {
-                    'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(requestObj)
-                }).then((response) => response.json())
-                .then((response) => {
-                    return {recipe: response.data.recipe};
-                }).catch((err) => {
-                    return {recipe: {}};
-                });
+            var recipe = await requests.get.Recipe({store, params});
+
+            if (recipe) {
+                return {recipe}
             } else {
                 redirect('/recipes');
             }

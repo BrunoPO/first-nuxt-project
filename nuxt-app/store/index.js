@@ -1,5 +1,7 @@
 "use strict";
 
+import requests from '@/helpers/requests';
+
 export const state = () => ({
   recipes: [],
   query: ""
@@ -13,44 +15,15 @@ export const mutations = {
 }
 
 export const actions = {
-  async searchRecipes ({state, commit}, { query, callback, callbackErr}) {
-    var query = query;
-    var requestObj = {
-        "operationName": null,
-        "query": "{recipes(query: \"" + query + "\") {id title thumbnail previewText}}",
-        "variables": {}
-    }
-
+  async searchRecipes ({ state, commit }, { query }) {
     if (state.query != query) {
-      await fetch(getUrl(), {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(requestObj)
-      }).then((response) => response.json()
-      ).then((response) => {
-        var data = {
-          query: query,
-          recipes: response.data.recipes
-        }
-        commit('updateRecipes', data)
-        callback && callback(data);
-      }).catch((err) => {
-        callbackErr && callbackErr(err);
-      })
+      var recipes = await requests.get.Recipes(query)
+      var data = {
+        query: query,
+        recipes: recipes
+      }
+
+      commit('updateRecipes', data)
     }
   }
-}
-
-function getUrl(...args) {
-  var url = "http://localhost:4000";
-  args.forEach((curr, index) => {
-    if (index % 2 == 0) {
-      url += "&" + curr + "="
-    } else {
-      url += curr
-    }
-  });
-  return url;
 }

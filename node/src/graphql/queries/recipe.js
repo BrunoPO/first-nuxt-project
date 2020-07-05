@@ -28,11 +28,12 @@ module.exports = {
       return updateRecipes(response, initialPage);
     });
   },
-  recipe: (_context, { query, id }) => {
-    const url = getUrl(searchRecipesUrl, ['q', query, 'from', id, 'to', Number(id) + 1]);
+  recipe: (_context, { id }) => {
+    const [from,, query] = id.split('|');
+    const url = getUrl(searchRecipesUrl, ['q', query, 'from', from, 'to', Number(from) + 1]);
     return requisition(url).then((data) => {
       if (data.count) {
-        const response = updateRecipes(data.hits, id);
+        const response = updateRecipes(data.hits, from);
         if (response.length) {
           const recipe = response[0];
           recipe.id = id;

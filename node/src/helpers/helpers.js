@@ -17,11 +17,13 @@ function requisition(url) {
     .then((response) => response.data).catch((error) => error);
 }
 
-function updateRecipes(hits, id) {
-  const inicialID = id || 0;
+function updateRecipes(hits, idx) {
+  const inicialIndex = idx || 0;
   return hits.map((obj, index) => {
     const oriRecipe = obj.recipe;
-    oriRecipe.id = index + inicialID;
+    const [originalID, query] = oriRecipe.shareAs.match(/(?<=recipe\/).*/g)[0].split('/');
+    oriRecipe.index = index + inicialIndex;
+    oriRecipe.id = [oriRecipe.index, originalID, query].join('|');
     oriRecipe.thumbnail = oriRecipe.image;
     oriRecipe.previewText = oriRecipe.source;
     oriRecipe.title = oriRecipe.label;

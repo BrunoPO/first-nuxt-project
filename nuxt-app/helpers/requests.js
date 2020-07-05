@@ -6,7 +6,7 @@ export default {
       if (params.id && store.state.query) {
         const requestObj = {
           operationName: null,
-          query: `{recipe(query: "${store.state.query}", id: "${params.id}") {id title thumbnail previewText}}`,
+          query: `{recipe(id: "${params.id}") {id title thumbnail previewText}}`,
           variables: {},
         };
 

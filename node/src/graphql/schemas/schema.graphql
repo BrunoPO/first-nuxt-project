@@ -1,5 +1,6 @@
 type Recipe {
     id: ID!
+    index: Int
     title: String
     thumbnail: String
     previewText: String
@@ -7,5 +8,5 @@ type Recipe {
 
 type Query {
     recipes(query: String!, from:Int, pageSize:Int ): [Recipe!]!
-    recipe(query: String!, id: ID!): Recipe
+    recipe(id: String!): Recipe
 }

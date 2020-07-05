@@ -20,10 +20,11 @@ function requisition(url) {
     });
 }
 
-function updateRecipes(hits) {
+function updateRecipes(hits, inicialID) {
+    inicialID = inicialID || 0;
     return hits.map((obj, index) => {
         var oriRecipe = obj.recipe;
-        oriRecipe.id = index;
+        oriRecipe.id = index + inicialID;
         oriRecipe.thumbnail = oriRecipe.image;
         oriRecipe.previewText = oriRecipe.source;
         oriRecipe.title = oriRecipe.label

@@ -2,7 +2,7 @@ import CONSTANTS from '@/helpers/constants';
 
 export default {
     get: {
-        async Recipe ({store, params}) {
+        async Recipe({store, params}) {
             if (params.id && store.state.query) {
                 var requestObj = {
                     "operationName": null,
@@ -26,10 +26,11 @@ export default {
                 return undefined;
             }
         },
-        async Recipes (query) {
+        async Recipes(query, from) {
+            from = from || 0;
             var requestObj = {
                 "operationName": null,
-                "query": "{recipes(query: \"" + query + "\") {id title thumbnail previewText}}",
+                "query": "{recipes(query: \"" + query + "\", from:" + from + " , pageSize: 12) {id title thumbnail previewText}}",
                 "variables": {}
             }
     

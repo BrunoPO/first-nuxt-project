@@ -24,14 +24,14 @@ module.exports = {
             if (data.count) {
                 response = data.hits;
             }
-            return updateRecipes(response);
+            return updateRecipes(response, initialPage);
         });
     },
     recipe: (_context, {query, id}) => {
         url = getUrl(searchRecipesUrl, ["q", query, "from", id, "to", Number(id) + 1]);
         return requisition(url).then(data => {
             if (data.count) {
-                var response = updateRecipes(data.hits);
+                var response = updateRecipes(data.hits, id);
                 if (response.length) {
                     var recipe = response[0];
                     recipe.id = id;

@@ -4,7 +4,7 @@ import requests from '@/helpers/requests';
 
 export const state = () => ({
   recipes: [],
-  query: ""
+  query: "",
 })
 
 export const mutations = {
@@ -25,5 +25,14 @@ export const actions = {
 
       commit('updateRecipes', data)
     }
+  },
+  async loadMore ({ commit }) {
+    var recipes = await requests.get.Recipes(this.state.query, this.state.recipes.length);
+    var data = {
+      query: this.state.query,
+      recipes: this.state.recipes.concat(recipes)
+    }
+
+    commit('updateRecipes', data)
   }
 }

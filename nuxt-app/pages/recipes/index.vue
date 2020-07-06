@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import Recipe from '@/components/Recipe';
+import Recipe from '@/components/recipes/RecipeTile';
 
 export default {
   data: () => ({
@@ -47,13 +47,5 @@ export default {
     .centralize-content{
         margin: 1rem auto 3rem auto;
         display: table;
-    }
-
-    .recipes div {
-        display: flex;
-        flex-flow: row wrap;
-        flex-direction: row;
-        flex-wrap: wrap;
-        width: 53rem;
     }
 </style>

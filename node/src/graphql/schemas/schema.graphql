@@ -9,4 +9,7 @@ type Recipe {
 type Query {
     recipes(query: String!, from:Int, pageSize:Int ): [Recipe!]!
     recipe(id: String!): Recipe
+    getFavorites: [Recipe!]!
+    addFavorite(id: String!): [String!]!
+    removeFavorite(id: String!): [String!]!
 }

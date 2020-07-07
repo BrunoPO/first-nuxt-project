@@ -2,7 +2,7 @@ import requests from '@/helpers/requests';
 
 export const state = () => ({
   recipes: [],
-  wishlist: {},
+  favorites: [],
   query: '',
 });
 
@@ -11,10 +11,11 @@ export const mutations = {
     this.state.query = params.query;
     this.state.recipes = params.recipes;
   },
-  addFavorite(_, params) {
-    if (!this.state.wishlist[params.id]) {
-      this.state.wishlist[params.id] = true;
-    }
+  addFavorite(_, favorites) {
+    this.state.favorites = favorites;
+  },
+  updateFavorites(_, favorites) {
+    this.state.favorites = favorites;
   },
 };
 
@@ -36,10 +37,17 @@ export const actions = {
       query: this.state.query,
       recipes: this.state.recipes.concat(recipes),
     };
-
     commit('updateRecipes', params);
   },
-  addFavorite({ commit }, params) {
-    commit('addFavorite', params);
+  async addFavorite({ commit }, { id }) {
+    const favorites = await requests.add.Favorite(id);
+    commit('updateFavorites', favorites);
+  },
+  async removeFavorite({ commit }, { id }) {
+    const favorites = await requests.delete.Favorite(id);
+    commit('updateFavorites', favorites);
+  },
+  updateFavorites({ commit }, { updateFavorites }) {
+    commit('updateFavorites', updateFavorites);
   },
 };

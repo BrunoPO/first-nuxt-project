@@ -12,7 +12,10 @@
     "lint": "eslint \"nuxt-app/**\" --fix",
     "lint-api": "eslint \"node/**\" --fix"
   },
-  "dependencies": {},
+  "dependencies": {
+    "cors": "^2.8.5",
+    "ms": "^2.1.2"
+  },
   "devDependencies": {
     "eslint": "^7.4.0",
     "eslint-config-airbnb-base": "^14.2.0",

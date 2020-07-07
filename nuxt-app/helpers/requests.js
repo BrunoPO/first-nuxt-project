@@ -11,12 +11,17 @@ const requests = {
 
       return fetch(CONSTANTS.API_URL, {
         method: 'POST',
+        mode: 'cors',
+        credentials: 'include',
         headers: {
+          Accept: 'application/json',
           'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': 'localhost:3000',
+          'Access-Control-Allow-Methods': 'POST',
+          'Access-Control-Allow-Headers': 'Content-Type',
         },
         body: JSON.stringify(requestObj),
-      }).then((response) => response.json())
-        .catch(() => undefined);
+      }).then((response) => response.json()).catch(() => undefined);
     },
   },
   get: {
@@ -34,14 +39,24 @@ const requests = {
       return requests.generic.query(query)
         .then((response) => response.data.recipes);
     },
-    async Favorites(store) {
-      let query = '';
-      Object.keys(store.state.wishlist).forEach((curr, index) => {
-        query += `Index${index}: recipe(id: "${curr}") {id title thumbnail previewText}`;
-      });
-      query = `{${query}}`;
+    async Favorites() {
+      const query = 'query {getFavorites{id title thumbnail previewText}}';
       return requests.generic.query(query)
-        .then((response) => Object.values(response.data));
+        .then((response) => response.data?.getFavorites);
+    },
+  },
+  add: {
+    async Favorite(id) {
+      const query = `query {addFavorite(id: "${id}")}`;
+      return requests.generic.query(query)
+        .then((response) => response.data.addFavorite);
+    },
+  },
+  remove: {
+    async Favorite(id) {
+      const query = `query {removeFavorite(id: "${id}")}`;
+      return requests.generic.query(query)
+        .then((response) => response.data.removeFavorite);
     },
   },
 };

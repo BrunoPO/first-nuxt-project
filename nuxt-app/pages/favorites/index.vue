@@ -25,8 +25,8 @@ export default {
     Recipe,
   },
   async asyncData({ store }) {
-    const recipes = await requests.get.Favorites();
-    if (!store.state.favorites?.length) {
+    const recipes = await requests(store).get.Favorites();
+    if (!store.state.favorites.length) {
       store.dispatch('updateFavorites', recipes.map((curr) => curr.id));
     }
     return { recipes };

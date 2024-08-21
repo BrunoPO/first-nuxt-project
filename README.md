@@ -17,3 +17,7 @@ $ yarn lint
 
 # lint at node
 $ yarn lint-api
+
+# node version
+16.13.0
+

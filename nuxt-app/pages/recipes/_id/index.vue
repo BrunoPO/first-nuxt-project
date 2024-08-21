@@ -24,7 +24,7 @@ import requests from '@/helpers/requests';
 
 export default {
   async asyncData({ store, params, redirect }) {
-    const recipe = await requests.get.Recipe({ store, params });
+    const recipe = await requests(store).get.Recipe({ store, params });
 
     if (!recipe) {
       redirect('/recipes');

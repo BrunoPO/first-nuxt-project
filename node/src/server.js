@@ -4,7 +4,7 @@ const session = require('express-session');
 const { GraphQLServer } = require('graphql-yoga');
 const resolvers = require('./graphql/resolvers/resolvers');
 
-const SECRET = 'someRandomSecretHere';
+const SECRET = process.env.SESSION_SECRET || 'someRandomSecretHere';
 
 // context
 const context = (req) => ({
@@ -31,10 +31,10 @@ server.express.use(session({
 }));
 
 const options = {
-  port: 4000,
+  port: process.env.PORT || 4000,
   cors: {
     credentials: true,
-    origin: ['http://localhost:3000'],
+    origin: [process.env.CLIENT_URL || 'http://localhost:3000'],
     allowHeaders: ['Content-Type'],
   },
 };
